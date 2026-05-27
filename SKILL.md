@@ -10,14 +10,24 @@ description: >
   "数据集 SOTA"、"哪个老师招学生"、"我不知道具体做什么方向"、"帮我细化研究问题"、
   以及所有CS研究生学术相关查询。
 compatibility:
-  claude_code: ">=1.0"                                          # 原生支持：使用 WebSearch + WebFetch 工具
-  openai_codex: "adapter"                                       # 需适配器：映射为 codex 的 web_search + fetch 工具
-  required_capabilities: [web_search, web_fetch, parallel_agents] # 核心能力依赖
-  platform_notes: "See references/platform-adapter.md for multi-platform support"
+  claude_code: ">=1.0"
+  openai_codex: ">=0.45.0"
+  required_plugins:
+    claude_code:
+      - "WebSearch (MCP: plugin_playwright or built-in web_search)"
+      - "WebFetch (MCP: plugin_context7 or built-in fetch)"
+      - "Bash (MCP: for git/curl/API calls)"
+      - "Agent (optional, for parallel batch search)"
+    openai_codex:
+      - "web_search (built-in)"
+      - "fetch (built-in)"
+      - "bash (built-in)"
+  install_guide: "See README.md for platform-specific setup"
+  platform_notes: "See references/platform-adapter.md for detailed multi-platform support"
 ---
-# 对平台兼容性有顾虑？请看 references/platform-adapter.md
-# 对搜索语法拿不准？请看 references/search-patterns.md
-# 对CCF分级不确定？请看 references/ccf-rankings.md
+# 依赖插件：WebSearch + WebFetch（Claude Code）/ web_search + fetch（Codex）
+# 安装指南见 README.md | 平台适配见 references/platform-adapter.md
+# 搜索语法见 references/search-patterns.md | CCF分级见 references/ccf-rankings.md
 
 # 学者学术论文搜索与评估
 
