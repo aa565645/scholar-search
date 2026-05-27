@@ -1,6 +1,6 @@
 # scholar-search
 
-面向计算机学科研究生的全能学术搜索与评估 Skill，6种模式 + 3项知识增强。
+面向计算机学科研究生的全能学术搜索与评估 Skill，7种模式 + 3项知识增强 + 阅读清单持久化。
 
 ## 文件结构
 
@@ -11,20 +11,29 @@ scholar-search/
 │   ├── ccf-rankings.md               # CCF 第七版（2026）分级速查
 │   ├── search-patterns.md            # 搜索语法与模式速查
 │   └── platform-adapter.md           # 多平台适配指南
+├── CHANGELOG.md                      # 版本更新日志
 ├── LICENSE                           # MIT
 └── README.md
 ```
 
-## 六种模式
+## 七种模式
 
 | 模式 | 功能 | 示例 |
 |------|------|------|
 | **C** 团队搜索 | 团队结构 + 产出模式 + 定位分析 | "分析一下 XX 课题组" |
-| **D** 方向发现 | 必读论文 + 核心研究者 + 代码 + 入门路径 | "我研一想做深度哈希，该读什么？" |
+| **D** 方向发现 | 四级发散搜索 + 必读论文 + 代码 + 入门路径 | "我研一想做深度哈希，该读什么？" |
 | **E** 复现评估 | 代码质量 + 硬件需求 + 性价比评分 | "这篇论文代码能跑吗？" |
 | **F** 基准追踪 | 标准数据集 + SOTA + 天花板判断 | "这个方向 SOTA 多少？" |
 | **G** 招生匹配 | 招生导师 + 课题组风格 + 择导建议 | "做 XX 方向的老师谁在招生？" |
 | **H** Socratic引导 | 5 层对话：模糊想法 → 行动计划 | "我对 XX 有兴趣但不知研究什么" |
+| **I** 🆕 资源驱动规划 | 有什么数据/GPU → 能做什么 → 论文推荐 | "我手上有XX数据，能做什么方向？" |
+
+## 特色功能
+
+- **搜索前追问** — 模式 D/I 开始前先了解用户的技术栈/GPU/目标，精准推荐
+- **阅读清单持久化** — 推荐论文后可保存到本地 `~/.claude/scholar-reading-list-[方向].md`，后续对话追踪进度
+- **四级发散搜索** — 模式 D 不再窄化推荐：同领域 → 同类问题×其他文字 → 通用方法 → 跨域启发
+- **所有推荐附链接** — arXiv/DOI/GitHub 必填，可直接点击验证
 
 ## 知识增强
 
@@ -47,59 +56,31 @@ scholar-search/
 | **Bash** | 执行 git/curl/API 调用 | 系统自带 |
 | **Agent** | 并行批量搜索（可选，加速用） | Claude Code 内置 |
 
-**安装步骤：**
-
 ```bash
-# 1. 确认 Claude Code 版本 >= 1.0
-claude --version
-
-# 2. 确认必要 MCP 插件已启用（在 settings.json 中）
-#    "mcpServers": {
-#      "plugin_playwright": { ... },    // WebSearch 能力
-#      "plugin_context7": { ... }       // WebFetch 能力
-#    }
-
-# 3. 克隆 skill
 git clone https://github.com/aa565645/scholar-search.git ~/.claude/skills/scholar-search/
-
-# 4. 重启 Claude Code，输入 "分析一下 XX 课题组" 即可触发
+# 重启 Claude Code 即可触发
 ```
 
 ### OpenAI Codex
 
-**前置条件：**
-
-| 能力 | Codex 内置工具 | 说明 |
+| 能力 | 内置工具 | 说明 |
 |------|:---:|------|
 | 网页搜索 | `web_search` | 内置，无需额外安装 |
-| 网页抓取 | `fetch` | 内置，无需额外安装 |
+| 网页抓取 | `fetch` | 内置 |
 | 命令行 | `bash` | 内置 |
-| 并行搜索 | ❌ 不支持 Agent 模式 | 自动降级为串行搜索 |
-
-**安装步骤：**
 
 ```bash
-# 1. 确认 Codex 版本 >= 0.45.0
-codex --version
-
-# 2. 克隆 skill
 git clone https://github.com/aa565645/scholar-search.git ~/.codex/skills/scholar-search/
-
-# 3. 在 Codex 配置中注册 skill 路径（具体方式见 Codex 文档）
-# 4. 重启 Codex。模型会自动将 WebSearch → web_search，WebFetch → fetch 适配
 ```
 
-> Codex 无需修改 SKILL.md——模型会自动理解指令语义并调用自己的工具链。
+> 模型自动将 WebSearch → web_search，WebFetch → fetch 适配，无需修改 SKILL.md。
 
-### 纯 API 环境（无浏览器/Claude）
+### 纯 API 环境
 
-参考 `references/platform-adapter.md` 中的 API 映射表，可将搜索替换为：
-- DBLP API → `https://dblp.org/search/publ/api`
-- Semantic Scholar API → `https://api.semanticscholar.org`
-- arXiv API → `https://export.arxiv.org/api/query`
+参考 `references/platform-adapter.md`。
 
 ---
 
-## 来源
+## 版本
 
-与 Claude Code 多轮迭代开发（v3.0），从真实 CS 研究生需求出发。参考了 ustc-ai4science/academic-search 的工程化结构。
+v3.1 — 详见 [CHANGELOG.md](CHANGELOG.md)
