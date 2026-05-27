@@ -9,7 +9,15 @@ description: >
   触发场景："团队分析"、"研究方向入门"、"论文复现评估"、
   "数据集 SOTA"、"哪个老师招学生"、"我不知道具体做什么方向"、"帮我细化研究问题"、
   以及所有CS研究生学术相关查询。
+compatibility:
+  claude_code: ">=1.0"                                          # 原生支持：使用 WebSearch + WebFetch 工具
+  openai_codex: "adapter"                                       # 需适配器：映射为 codex 的 web_search + fetch 工具
+  required_capabilities: [web_search, web_fetch, parallel_agents] # 核心能力依赖
+  platform_notes: "See references/platform-adapter.md for multi-platform support"
 ---
+# 对平台兼容性有顾虑？请看 references/platform-adapter.md
+# 对搜索语法拿不准？请看 references/search-patterns.md
+# 对CCF分级不确定？请看 references/ccf-rankings.md
 
 # 学者学术论文搜索与评估
 
